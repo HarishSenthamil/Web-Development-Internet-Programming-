@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online Job Consultant (Jobmart.com)</title>
+        <style>
+            .form-section label, 
+            .form-section input, 
+            .form-section select, 
+            .form-section textarea {
+                display: block;
+                margin-bottom: 10px;
+            }
+            
+            .form-section input[type="radio"],
+            .form-section input[type="checkbox"] {
+                display: inline;
+                margin-right: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <fieldset class="container">
+            <h2>Online Job Consultant (Jobmart.com)</h2>
+            <form action="/submit_form" method="post">
+                <fieldset class="form-section">
+                    <legend>Personal Information</legend>
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required>
+
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required>
+
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age">
+
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+
+                    <label>Sex:</label>
+                    <input type="radio" id="male" name="sex" value="Male" required> Male
+                    <input type="radio" id="female" name="sex" value="Female" required> Female
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+    
+                    <label for="mobileNumber">Mobile Number:</label>
+                    <input type="tel" id="mobileNumber" name="mobileNumber" required>
+    
+                    <label for="address1">Address 1:</label>
+                    <input type="text" id="address1" name="address1" required>
+    
+                    <label for="address2">Address 2:</label>
+                    <input type="text" id="address2" name="address2">
+
+                    <label>Religion:</label>
+                    <input type="radio" id="hindu" name="religion" value="Hindu" required> Hindu
+                    <input type="radio" id="muslim" name="religion" value="Muslim"> Muslim
+                    <input type="radio" id="christian" name="religion" value="Christian"> Christian
+
+                    <label for="photo">Photo:</label>
+                    <input type="file" id="photo" name="photo">
+                </fieldset>
+                <fieldset class="form-section">
+                    <legend>Qualification</legend>
+                
+                    <table>
+                        <tr>
+                            <th>Examination Passed</th>
+                            <th>Board/University</th>
+                            <th>Year Of Completion</th>
+                            <th>Mode Of Education</th>
+                            <th>Percentage/Grade</th>
+                        </tr>
+                        <tr>
+                            <td>SSLC</td>
+                            <td><input type="text" name="sslcBoard"></td>
+                            <td><input type="number" name="sslcYear"></td>
+                            <td><input type="text" name="sslcMode"></td>
+                            <td><input type="text" name="sslcPercentage"></td>
+
+                        </tr>
+                        <tr>
+                            <td>Higher Secondary</td>
+                            <td><input type="text" name="hsBoard"></td>
+                            <td><input type="number" name="hsYear"></td>
+                            <td><input type="text" name="hsMode"></td>
+                            <td><input type="text" name="hsPercentage"></td>
+                        </tr>
+                        <tr>
+                            <td>College</td>
+                            <td><input type="text" name="ugname"></td>
+                            <td><input type="number" name="ugYear"></td>
+                            <td><input type="text" name="deptname"></td>
+                            <td><input type="text" name="hsPercentage"></td>
+                        </tr>
+
+                    </table>
+                </fieldset>
+                <fieldset class="form-section">
+                    <legend>Industrial Preference</legend>
+                    <input type="checkbox" id="ït" name="industrialPreference" value="IT" required>IT
+                    <input type="checkbox"  id="CSE" name="ïndustrialPreference" value="CSE">CSE
+                    <input type="checkbox" id="mechanical" name="industrialPreference" value="Mechanical"> Mechanical
+                    <input type="checkbox" id="automobile" name="industrialPreference" value="Automobile"> Automobile
+                    <input type="checkbox" id="marketing" name="industrialPreference" value="Marketing"> Marketing
+                    <input type="checkbox" id="randd" name="industrialPreference" value="R&D"> R&D
+                    <input type="checkbox" id="chemical" name="industrialPreference" value="Chemical"> Chemical
+                    <input type="checkbox" id="education" name="industrialPreference" value="Education"> Education
+                    <input type="checkbox" id="biotech" name="industrialPreference" value="Bio-Technology"> Bio-Technology
+                </fieldset>
+                <fieldset class="form-section">
+                    <legend>Location Preference</legend>
+                    <label for="userName">User Name:</label>
+                    <input type="text" id="userName" name="userName" required>
+    
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </fieldset>
+
+                <fieldset class="form-section">
+                    <input type="submit" value="Submit">
+                </fieldset>
+
+            </form>
+        </fieldset>
+    </body>
+</html>
