@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <script>
+        function validateform() {
+            var name = document.myform.name.value;
+            var password = document.myform.password.value;
+            var x = document.myform.email.value;
+            var atposition = x.indexOf("@");
+            var dotposition = x.lastIndexOf(".");
+            var phone = document.myform.phoneNumber.value;
+            var hobbies = document.myform.hobbies.value;
+            var gender = document.myform.gender.value;
+            var country = document.myform.country.value;
+
+            if (name == null || name == "") {
+                alert("Name can't be blank");
+                return false;
+            } else if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return false;
+            } else if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= x.length) {
+                alert("Please enter a valid e-mail address \n atposition:" + atposition + "\n dotposition:" + dotposition);
+                return false;
+            } else if (phone.length != 10) {
+                alert("Phone number must be exactly 10 digits.");
+                return false;
+            } else if (hobbies == null || hobbies == "") {
+                alert("Hobbies can't be blank");
+                return false;
+            } else if (gender == null || gender == "") {
+                alert("Gender must be selected");
+                return false;
+            } else if (country == null || country == "") {
+                alert("Country must be selected");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <form name="myform" method="post" action="Student.html" onsubmit="return validateform()">
+        Name: <input type="text" name="name"><br/>
+        Password: <input type="password" name="password"><br/>
+        Email: <input type="email" name="email"><br/>
+        Phone: <input type="number" name="phoneNumber" minlength="10" maxlength="10"><br/>
+        Hobbies: <input type="radio" name="hobbies" value="reading">Reading
+        <input type="radio" name="hobbies" value="travelling">travelling
+        <input type="radio" name="hobbies" value="gaming">Gaming<br/>
+        Gender:
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female<br/>
+        Country:
+        <select name="country">
+            <option value="">Select Country</option>
+            <option value="USA">USA</option>
+            <option value="Canada">Canada</option>
+            <option value="UK">UK</option>
+            <option value="Australia">Australia</option>
+        </select><br/>
+        
+</body>
+</html>
+

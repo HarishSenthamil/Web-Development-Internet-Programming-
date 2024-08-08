@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Internal Marks Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Internal Marks Calculator</h1>
+    <form id="marksForm">
+        <label for="cia1">CIA1 Mark (0-50):</label>
+        <input type="number" id="cia1" name="cia1" min="0" max="50" required>
+
+        <label for="cia2">CIA2 Mark (0-50):</label>
+        <input type="number" id="cia2" name="cia2" min="0" max="50" required>
+
+        <label for="cia3">CIA3 Mark (0-50):</label>
+        <input type="number" id="cia3" name="cia3" min="0" max="50" required>
+
+        <label for="assignment">Assignment Mark (0-10):</label>
+        <input type="number" id="assignment" name="assignment" min="0" max="10" required>
+
+        <button type="submit">Calculate Internal Mark</button>
+    </form>
+
+    <div id="error" class="error"></div>
+    <div id="result" class="result"></div>
+
+    <script>
+        document.getElementById('marksForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const cia1 = parseFloat(document.getElementById('cia1').value);
+            const cia2 = parseFloat(document.getElementById('cia2').value);
+            const cia3 = parseFloat(document.getElementById('cia3').value);
+            const assignment = parseFloat(document.getElementById('assignment').value);
+
+            if (isNaN(cia1) || cia1 < 0 || cia1 > 50 ||
+                isNaN(cia2) || cia2 < 0 || cia2 > 50 ||
+                isNaN(cia3) || cia3 < 0 || cia3 > 50) {
+                document.getElementById('error').textContent = 'Error: CIA marks must be within the range of 0 to 50.';
+                document.getElementById('result').textContent = '';
+                return;
+            }
+
+            if (isNaN(assignment) || assignment < 0 || assignment > 10) {
+                document.getElementById('error').textContent = 'Error: Assignment mark must be within the range of 0 to 10.';
+                document.getElementById('result').textContent = '';
+                return;
+            }
+
+            const ciaMarks = [cia1, cia2, cia3];
+            ciaMarks.sort((a, b) => b - a); 
+
+            const bestTwoCIA = ciaMarks[0] * 2 + ciaMarks[1] * 2;
+
+            const internalMark = (bestTwoCIA / 5) + assignment;
+
+            document.getElementById('error').textContent = '';
+            document.getElementById('result').textContent = `The internal mark is: ${internalMark.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>
