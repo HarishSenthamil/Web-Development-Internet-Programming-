@@ -1,0 +1,95 @@
+<html>
+<html>
+<head>
+	<title>Material Manufacturing Inventory</title>
+	<style>
+		#material-form {
+			display: none;
+            background-color: aqua;
+            border:0px;
+			width: 280px;
+		}
+	</style>
+</head>
+<body>
+	<h1><center>Material Manufacturing Inventory</center></h1>
+
+	<table id="inventory-table" style="background-color: beige;border:1px;">
+		<thead>
+			<tr>
+				<th>Material</th>
+				<th>Quantity</th>
+				<th>Unit Price</th>
+				<th>Total Value</th>
+			</tr>
+		</thead>
+		<tbody id="inventory-body">
+			<!-- Table rows will be added dynamically -->
+		</tbody>
+	</table>
+
+	<button id="add-material-btn">Add Material</button>
+
+		
+        <table id="material-form" >
+		<tr><td><label for="material-name">Material Name:</label></td>
+		<td><input type="text" id="material-name"></td></tr>
+		<tr><td><label for="quantity">Quantity:</label></td>
+		<td><input type="number" id="quantity"></td></tr>
+		<tr><td><label for="unit-price">Unit Price:</label></td>
+		<td><input type="number" id="unit-price"></tr></td>
+		<tr></td><button id="save-material-btn">Save Material</button></td></tr>
+	    </table>
+    
+
+	<script>
+		// Get references to the table and form elements
+		var inventoryTable = document.getElementById("inventory-table");
+		var inventoryBody = document.getElementById("inventory-body");
+		var addMaterialBtn = document.getElementById("add-material-btn");
+		var materialForm = document.getElementById("material-form");
+		var materialNameInput = document.getElementById("material-name");
+		var quantityInput = document.getElementById("quantity");
+		var unitPriceInput = document.getElementById("unit-price");
+		var saveMaterialBtn = document.getElementById("save-material-btn");
+
+		// Add event listener to add material button
+		addMaterialBtn.addEventListener("click", function() {
+			materialForm.style.display = "block";
+		});
+
+		// Add event listener to save material button
+		saveMaterialBtn.addEventListener("click", function() {
+			var materialName = materialNameInput.value.trim();
+			var quantity = quantityInput.value.trim();
+			var unitPrice = unitPriceInput.value.trim();
+
+			if (materialName === "" || quantity === "" || unitPrice === "") {
+				alert("Please fill in all fields");
+				return;
+			}
+
+			// Create a new table row
+			var row = document.createElement("tr");
+			row.innerHTML = `
+				<td>${materialName}</td>
+				<td>${quantity}</td>
+				<td>${unitPrice}</td>
+				<td>${parseFloat(quantity) * parseFloat(unitPrice)}</td>
+			`;
+
+			// Add the row to the table body
+			inventoryBody.appendChild(row);
+
+			// Reset the form fields
+			materialNameInput.value = "";
+			quantityInput.value = "";
+			unitPriceInput.value = "";
+
+			// Hide the form
+			materialForm.style.display = "none";
+		});
+	</script>
+</body>
+</html>
+

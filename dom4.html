@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Management System</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .balance {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .overdue {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bank Management System</h1>
+
+    <h2>Account Information</h2>
+    <p><strong>Account Number:</strong> <span id="account-number">12345678</span></p>
+    <p><strong>Account Holder:</strong> <span id="account-holder">John Doe</span></p>
+    <p><strong>Account Balance:</strong> $<span id="account-balance" class="balance">5000</span></p>
+    <p><strong>Account Type:</strong> <span id="account-type">Savings</span></p>
+    <p><strong>Account Status:</strong> <span id="account-status">Active</span></p>
+
+    <h2>Transaction History</h2>
+    <table id="transaction-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Transactions will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <h2>Actions</h2>
+    <label for="transaction-type">Transaction Type:</label>
+    <select id="transaction-type">
+        <option value="deposit">Deposit</option>
+        <option value="withdrawal">Withdrawal</option>
+    </select>
+
+    <label for="transaction-amount">Amount:</label>
+    <input type="number" id="transaction-amount" min="0" step="0.01">
+
+    <button onclick="handleTransaction()">Submit Transaction</button>
+    <button onclick="accrueInterest(0.02)">Accrue 2% Interest</button>
+    <button onclick="updateAccountType('Checking')">Change to Checking Account</button>
+    <button onclick="markOverdueAccounts()">Mark Overdue Accounts</button>
+
+    <script>
+        // Function to handle the transaction based on user input
+        function handleTransaction() {
+            const type = document.getElementById('transaction-type').value;
+            const amount = parseFloat(document.getElementById('transaction-amount').value);
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount.');
+                return;
+            }
+
+            addTransaction(type, amount);
+        }
+
+        // Function to add a transaction
+        function addTransaction(type, amount) {
+            const balanceElement = document.getElementById('account-balance');
+            let currentBalance = parseFloat(balanceElement.textContent);
+
+            // Validate transaction based on type
+            if (type === 'withdrawal' && currentBalance < amount) {
+                alert('Insufficient funds for this withdrawal.');
+                return;
+            }
+
+            const transactionTable = document.getElementById('transaction-table').querySelector('tbody');
+            const newRow = document.createElement('tr');
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = new Date().toLocaleDateString();
+
+            const typeCell = document.createElement('td');
+            typeCell.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+            const amountCell = document.createElement('td');
+            amountCell.textContent = `$${amount.toFixed(2)}`;
+
+            const actionsCell = document.createElement('td');
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                removeTransaction(newRow, amount, type);
+            };
+            actionsCell.appendChild(deleteButton);
+
+            newRow.appendChild(dateCell);
+            newRow.appendChild(typeCell);
+            newRow.appendChild(amountCell);
+            newRow.appendChild(actionsCell);
+
+            transactionTable.appendChild(newRow);
+
+            updateBalance(type, amount);
+        }
+
+        // Function to remove a transaction
+        function removeTransaction(row, amount, type) {
+            const transactionTable = document.getElementById('transaction-table').querySelector('tbody');
+            transactionTable.removeChild(row);
+
+            const adjustedAmount = type === 'deposit' ? -amount : amount;
+            updateBalance(type === 'deposit' ? 'withdrawal' : 'deposit', adjustedAmount);
+        }
+
+        // Function to update the account balance
+        function updateBalance(type, amount) {
+            const balanceElement = document.getElementById('account-balance');
+            let currentBalance = parseFloat(balanceElement.textContent);
+
+            if (type === 'deposit') {
+                currentBalance += amount;
+            } else if (type === 'withdrawal') {
+                currentBalance -= amount;
+            }
+
+            balanceElement.textContent = currentBalance.toFixed(2);
+        }
+
+        // Function to accrue interest
+        function accrueInterest(rate) {
+            const balanceElement = document.getElementById('account-balance');
+            let currentBalance = parseFloat(balanceElement.textContent);
+
+            currentBalance += currentBalance * rate;
+            balanceElement.textContent = currentBalance.toFixed(2);
+        }
+
+        // Function to update the account type
+        function updateAccountType(newType) {
+            const accountTypeElement = document.getElementById('account-type');
+            accountTypeElement.textContent = newType;
+        }
+
+        function markOverdueAccounts() {
+            const accountStatusElement = document.getElementById('account-status');
+            accountStatusElement.textContent = 'Overdue';
+            accountStatusElement.classList.add('overdue');
+        }
+    </script>
+</body>
+</html>

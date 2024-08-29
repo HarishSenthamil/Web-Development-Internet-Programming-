@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Management System</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .balance {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .overdue {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bank Management System</h1>
+
+    <h2>Account Information</h2>
+    <p><strong>Account Number:</strong> <span id="account-number">12345678</span></p>
+    <p><strong>Account Holder:</strong> <span id="account-holder">John Doe</span></p>
+    <p><strong>Account Balance:</strong> $<span id="account-balance" class="balance">5000</span></p>
+    <p><strong>Account Type:</strong> <span id="account-type">Savings</span></p>
+
+    <h2>Transaction History</h2>
+    <table id="transaction-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Transactions will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <h2>Actions</h2>
+    <button onclick="addTransaction('deposit', 100)">Add Deposit of $100</button>
+    <button onclick="addTransaction('withdrawal', 50)">Add Withdrawal of $50</button>
+    <button onclick="accrueInterest(0.02)">Accrue 2% Interest</button>
+    <button onclick="updateAccountType('Checking')">Change to Checking Account</button>
+    <button onclick="updateOverdueAccounts()">Mark Overdue Accounts</button>
+
+    <script>
+        // Function to add a transaction
+        function addTransaction(type, amount) {
+            const transactionTable = document.getElementById('transaction-table').querySelector('tbody');
+            const newRow = document.createElement('tr');
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = new Date().toLocaleDateString();
+
+            const typeCell = document.createElement('td');
+            typeCell.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+            const amountCell = document.createElement('td');
+            amountCell.textContent = `$${amount.toFixed(2)}`;
+
+            const actionsCell = document.createElement('td');
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                removeTransaction(newRow, amount, type);
+            };
+            actionsCell.appendChild(deleteButton);
+
+            newRow.appendChild(dateCell);
+            newRow.appendChild(typeCell);
+            newRow.appendChild(amountCell);
+            newRow.appendChild(actionsCell);
+
+            transactionTable.appendChild(newRow);
+
+            updateBalance(type, amount);
+        }
+
+       
+        function removeTransaction(row, amount, type) {
+            const transactionTable = document.getElementById('transaction-table').querySelector('tbody');
+            transactionTable.removeChild(row);
+
+            const adjustedAmount = type === 'deposit' ? -amount : amount;
+            updateBalance(type === 'deposit' ? 'withdrawal' : 'deposit', adjustedAmount);
+        }
+
+        // Function to update the account balance
+        function updateBalance(type, amount) {
+            const balanceElement = document.getElementById('account-balance');
+            let currentBalance = parseFloat(balanceElement.textContent);
+
+            if (type === 'deposit') {
+                currentBalance += amount;
+            } else if (type === 'withdrawal') {
+                currentBalance -= amount;
+            }
+
+            balanceElement.textContent = currentBalance.toFixed(2);
+        }
+
+        // Function to accrue interest
+        function accrueInterest(rate) {
+            const balanceElement = document.getElementById('account-balance');
+            let currentBalance = parseFloat(balanceElement.textContent);
+
+            currentBalance += currentBalance * rate;
+            balanceElement.textContent = currentBalance.toFixed(2);
+        }
+
+        // Function to update the account type
+        function updateAccountType(newType) {
+            const accountTypeElement = document.getElementById('account-type');
+            accountTypeElement.textContent = newType;
+        }
+
+        // Function to mark overdue accounts (for demonstration)
+        function updateOverdueAccounts() {
+            const accountHolderElement = document.getElementById('account-holder');
+            accountHolderElement.classList.add('overdue');
+        }
+    </script>
+</body>
+</html>
